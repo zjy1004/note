@@ -9,7 +9,8 @@ const components = {
   layout: () => import('@/views/layout'),
   index: () => import('@/views/index/index'),
   register: () => import('@/views/register/index'),
-  writenote: () => import('@/views/writenote/index')
+  writenote: () => import('@/views/writenote/index'),
+  article: () => import('@/views/article/index')
 };
 const router = new Router({
 routes: [
@@ -39,6 +40,14 @@ routes: [
             title: '写笔记'
           },
           component: components.writenote,
+        },
+        {
+          path: 'article/:id',
+          meta: {
+            title: '文章详情'
+          },
+          name: 'article',
+          component: components.article,
         },
       ]
     }

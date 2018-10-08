@@ -6,7 +6,10 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css/normalize.css'
+import $axios from './utils/index'
+import store from './store/index'
 
+Vue.prototype.$axios = $axios;
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
@@ -14,6 +17,7 @@ Vue.config.productionTip = false;
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 });

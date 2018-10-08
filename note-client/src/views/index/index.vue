@@ -6,37 +6,37 @@
   </div>
   <div class="w1170">
     <div class="article-list">
-      <router-link to="#" class="item">
+      <router-link :to="{name: 'article', params: {id: item._id}}" class="item" v-for="(item, index) in content" :key="index">
         <div class="item-top">
           <div class="img-wrap">
-            <img src="../../../static/imgs/timg.jpg">
+            <img :src="item.author.avatar">
           </div>
           <div class="item-msg">
             <div class="row-one">
-           <span class="author-name">
+           <span class="author-name" v-text="item.author.username">
             莫言
             </span>
               <span class="divide">
               |
             </span>
-              <span class="article-title">
+              <span class="article-title" v-text="item.title">
               丰乳肥臀
             </span>
             </div>
             <div class="row-two">
           <span class="row-item">
-            浏览: 3
+            浏览: <span v-text="item.readnumber">3</span>
           </span>
               <span class="row-item">
-            回复: 5
+            回复: <span v-text="item.commonnum">5</span>
           </span>
               <span class="row-item">
-            分类: index
+            分类:   <span v-text="item.category.name">知性文章</span>
           </span>
             </div>
           </div>
         </div>
-        <div class="item-content">
+        <div class="item-content" v-text="item.contentText">
           一本关于母亲的书
         </div>
       </router-link>
@@ -54,6 +54,21 @@ export default {
     Banner,
     UserBox,
   },
+  data() {
+    return {
+      content: []
+    }
+  },
+  methods: {
+    getData() {
+      this.$axios.get('/article').then(res => {
+        this.content = res.data
+      })
+    }
+  },
+  created() {
+    this.getData()
+  }
 }
 </script>
 

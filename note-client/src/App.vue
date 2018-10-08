@@ -37,4 +37,9 @@ export default {
     width: 0;
     height: 0;
   }
+  .img{
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 </style>

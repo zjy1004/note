@@ -5,7 +5,6 @@
         <router-link to="/">
           云笔记
         </router-link>
-
       </div>
       <div class="header-btn flr">
         <el-button @click="$router.push('/writenote')">写笔记</el-button>
@@ -16,7 +15,18 @@
 
 <script>
   export default {
-    name: "Header"
+    name: "Header",
+    data() {
+      return {
+      formData: {
+        avatar: '',
+        email: '',
+        username: ''
+        }
+      }
+    },
+    methods: {
+    },
   }
 </script>
 

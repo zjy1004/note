@@ -4,16 +4,16 @@
       新用户注册
     </h2>
     <div class="item">
-      <input type="text" placeholder="用户名" v-model="username">
+      <input type="text" placeholder="用户名" v-model="formData.username">
     </div>
     <div class="item">
-      <input type="text" placeholder="邮箱" v-model="email">
+      <input type="text" placeholder="邮箱" v-model="formData.email">
     </div>
     <div class="item">
-      <input type="password" placeholder="密码" v-model="password" @keyup.enter="handelRegion">
+      <input type="password" placeholder="密码" v-model="formData.password" @keyup.enter.native="handelRegister">
     </div>
     <div class="item">
-      <el-button type="primary" class="_el-btn" @click="handelRegion">
+      <el-button type="primary" class="_el-btn" @click="handelRegister">
         注册
       </el-button>
     </div>
@@ -24,18 +24,28 @@
   export default {
     data () {
       return {
-        username: "",
-        password: "",
-        email: ""
+        formData: {
+          username: "",
+          password: "",
+          email: ""
+        }
       }
     },
     methods: {
-      handelRegion () {
-        let params = {
-          username: this.username,
-          password: this.password,
-          email: this.email
-        }
+      handelRegister () {
+        this.$axios.post('/user', this.formData).then(res => {
+          if(res.code == 200) {
+            this.$message.success(res.msg);
+            setTimeout(() => {this.$router.push('/index')},500);
+          }else {
+            this.$message.error(res.msg)
+          }
+        })
+        // let params = {
+        //   username: this.username,
+        //   password: this.password,
+        //   email: this.email
+        // }
       }
     }
   }

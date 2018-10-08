@@ -14,12 +14,16 @@
         v-model="formData.content"
         ref="myQuillEditor"
         :options="editorOption"
+        @change="handleChange"
       >
       </quill-editor>
-      <div class="category">
-        标签:
+      <div class="category clearfix">
+        <span class="fll text">分类:</span>
+        <div class="fll radios">
+          <Radios :options="categories" v-model="formData.category"></Radios>
+        </div>
       </div>
-      <el-button type="primary">
+      <el-button type="primary" @click="handleSubmit">
         发布笔记
       </el-button>
     </div>
@@ -30,16 +34,19 @@
   import 'quill/dist/quill.snow.css'
   import {quillEditor, Quill} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
-
   Quill.register('modules/ImageExtend', ImageExtend);
+  import Radios from '@/components/Radios'
   export default {
-    components: {quillEditor},
+    components: {quillEditor, Radios},
     data() {
       return {
         formData: {
           content: '',
-          title: ''
+          title: '',
+          contentText: '',
+          category: ''
         },
+        categories: [],
         editorOption: {
           modules: {
             ImageExtend: {
@@ -61,6 +68,34 @@
           }
         }
       }
+    },
+    methods: {
+      handleChange({quill, html, text}) {
+          this.formData.contentText = text
+          this.formData.contentText = this.formData.contentText.substring(0, 200) + '...'
+      },
+      getCategory() {
+        this.$axios.get('/category').then(res => {
+          console.log(res)
+          this.categories = res.data
+        })
+      },
+      handleSubmit() {
+        this.$axios.post('/article', this.formData).then(res => {
+          if (res.code == 200) {
+            this.$message.success(res.msg);
+            this.$router.push('/index')
+          } else {
+            if (res.code == 403) {
+              this.$message.error(res.msg);
+              this.$router.push('/index')
+            }
+          }
+        })
+      }
+    },
+    created () {
+      this.getCategory()
     }
   }
 </script>
@@ -84,6 +119,12 @@
     font-size: 14px;
     font-weight: 700;
     color: #409eff;
+    .text{
+      margin-top: 10px;
+    }
+    .radios{
+      margin-left: 5px;
+    }
   }
 }
 </style>
