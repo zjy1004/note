@@ -7,7 +7,7 @@
         </router-link>
       </div>
       <div class="header-btn flr">
-        <el-button @click="$router.push('/writenote')">写笔记</el-button>
+        <el-button @click="handleWrite">写笔记</el-button>
       </div>
     </div>
   </div>
@@ -16,16 +16,14 @@
 <script>
   export default {
     name: "Header",
-    data() {
-      return {
-      formData: {
-        avatar: '',
-        email: '',
-        username: ''
+    methods: {
+      handleWrite() {
+        if(this.$store.state.userInfo.username) {
+          this.$router.push('/writenote')
+        } else {
+          this.$message.info('登陆后才能写笔记哦')
         }
       }
-    },
-    methods: {
     },
   }
 </script>
