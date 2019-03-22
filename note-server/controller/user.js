@@ -3,11 +3,12 @@ const router = Router();
 const userModel = require('../model/user');
 const session = require('express-session');
 
-router.post('/user', async(req, res) => {
+router.post('/user', async(req, res) => { // 注册
     try {
         const {username, password, email} = req.body;
         const avatarNumber = Math.ceil(Math.random()*9);
-        const avatar = `http://pbl.yaojunrong.com/avatar${avatarNumber}.jpg`;
+        // const avatar = `http://pbl.yaojunrong.com/avatar${avatarNumber}.jpg`;
+        const avatar = `http://img5.duitang.com/uploads/item/201409/23/20140923094045_BNYji.thumb.700_0.png`;
 
         if (password&&password.length>=5) {
             const data = await userModel.create({username, password, email, avatar});
@@ -27,7 +28,7 @@ router.post('/user', async(req, res) => {
         });
     }
 });
-router.post('/login', async(req, res) => {
+router.post('/login', async(req, res) => { // 登陆
     try {
         const {email, password} = req.body;
         const userData = await userModel.findOne({email});
@@ -63,7 +64,7 @@ router.post('/login', async(req, res) => {
             })
     }
 });
-router.get('/logout', (req, res) => {
+router.get('/logout', (req, res) => { // 退出
     if (req.session.user) {
         req.session.user = null;
         res.json({

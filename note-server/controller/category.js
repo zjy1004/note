@@ -2,7 +2,7 @@ const {Router} = require("express");
 const router = Router();
 const categoryModel = require('../model/category');
 
-router.get('/category', (req, res) => {
+router.get('/category', (req, res) => { // 获取分类
     categoryModel.find().then(data => {
         res.json({
             code: 200,
@@ -21,7 +21,7 @@ router.get('/category/:id', (req, res) => {
     })
 });
 
-router.post('/category', async (req, res, next) => {
+router.post('/category', async (req, res, next) => { // 添加分类
    try {
        const {name} = req.body;
        const data = await categoryModel.create({name})

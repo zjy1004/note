@@ -31,6 +31,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import 'quill/dist/quill.snow.css'
   import {quillEditor, Quill} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
@@ -46,16 +47,21 @@
           contentText: '',
           category: ''
         },
+        token: '',
         categories: [],
         editorOption: {
           modules: {
             ImageExtend: {
               loading: true,
-              name: 'img',
-              action: 'https://qiniu.com',
+              name: 'file',
+              // action: 'https://qiniu.com',
+              action: 'https://upload-z1.qiniup.com',
               response: (res) => {
-                return res.info
-              }
+                return res.url
+              },
+              change: (xhr, formData) => {
+                formData.append('token', this.token)
+              } // 可选参数 每次选择图片触发，也可用来设置头部，但比headers多了一个参数，可设置formData
             },
             toolbar: {
               container: container,
@@ -73,6 +79,13 @@
       handleChange({quill, html, text}) {
           this.formData.contentText = text
           this.formData.contentText = this.formData.contentText.substring(0, 200) + '...'
+      },
+      getToken() {
+        axios.get('http://upload.yaojunrong.com/getToken').then(res => {
+          if (res.data.code == 200) {
+            this.token = res.data.data
+          }
+        })
       },
       getCategory() {
         this.$axios.get('/category').then(res => {
@@ -96,6 +109,7 @@
     },
     created () {
       this.getCategory()
+      this.getToken()
     }
   }
 </script>

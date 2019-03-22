@@ -1,6 +1,6 @@
 <template>
     <div class="radios clearfix">
-      <label class="radio-label fll" v-for="item in options">
+      <label class="radio-label fll" v-for="(item, index) in options" :key="index">
         <input type="radio" v-model="currentValue" class="radios-item" :value="item._id">
         <div class="radios-title-wrap">
           <span class="radios-title">{{item.name}}</span>

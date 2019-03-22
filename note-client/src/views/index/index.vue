@@ -5,7 +5,7 @@
     <UserBox></UserBox>
   </div>
   <div class="w1170">
-    <div class="article-list">
+    <div class="article-list" v-if="userInfo.username">
       <router-link :to="{name: 'article', params: {id: item._id}}" class="item" v-for="(item, index) in content" :key="index">
         <div class="item-top">
           <div class="img-wrap">
@@ -48,6 +48,7 @@
 <script>
 import Banner from '@/components/Banner'
 import UserBox from '@/components/UserBox'
+import {mapState} from 'vuex'
 
 export default {
   components: {
@@ -68,7 +69,10 @@ export default {
   },
   created() {
     this.getData()
-  }
+  },
+  computed: {
+      ...mapState(['userInfo'])
+    }
 }
 </script>
 

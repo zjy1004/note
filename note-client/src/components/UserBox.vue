@@ -2,10 +2,10 @@
   <div class="usebox flr">
     <div class="login-box" v-if="!userInfo.username">
       <div class="input-wrap mb30">
-        <input type="text" class="input" placeholder="邮箱" v-model="formData.email"></input>
+        <input type="text" class="input" placeholder="邮箱" v-model="formData.email" />
       </div>
       <div class="input-wrap mb30">
-        <input type="password" class="input" placeholder="密码" v-model="formData.password" @keyup.enter="handleLogin"></input>
+        <input type="password" class="input" placeholder="密码" v-model="formData.password" @keyup.enter="handleLogin"/>
       </div>
       <div class="btn-wrap mb30">
         <el-button type="primary" @click="handleLogin">登陆</el-button>

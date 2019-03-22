@@ -6,7 +6,7 @@ let baseURL = env == 'development' ? '/api' : '/';
 
 const instance = axios.create({
     baseURL,
-    timeout: 1500,
+    timeout: 15000,
 });
 
 const xhr = {
@@ -30,6 +30,12 @@ const xhr = {
   },
   post(url, data, config) {
     return this.fetch(url, data, config, 'post')
+  },
+  delete(url, data, config) {
+    return this.fetch(url, data, config, 'delete')
+  },
+  patch(url, data, config) {
+    return this.fetch(url, data, config, 'patch')
   }
 };
 
