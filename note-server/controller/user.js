@@ -4,6 +4,7 @@ const userModel = require('../model/user');
 const session = require('express-session');
 
 router.post('/user', async(req, res) => { // 注册
+    console.log(req,res);
     try {
         const {username, password, email} = req.body;
         const avatarNumber = Math.ceil(Math.random()*9);

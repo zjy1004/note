@@ -13,7 +13,8 @@ router.get('/category', (req, res) => { // 获取分类
 
 router.get('/category/:id', (req, res) => {
     let {id} = req.params;
-    categoryModel.findById(id).then(data => {
+    categoryModel.findById(id)
+    .then(data => {
         res.json({
             code: 200,
             data

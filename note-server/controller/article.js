@@ -3,8 +3,10 @@ const router = Router();
 const articleModel = require('../model/article');
 const categoryModel = require('../model/category');
 const session = require('express-session');
+let articleData;
+let categoryId 
 
-router.post('/article', async (req, res, next) => { // 获取所有文章
+router.post('/article', async (req, res, next) => { // 添加文章
     try {
         if (req.session.user) {
             const {content, contentText, title, category} = req.body;
@@ -16,6 +18,9 @@ router.post('/article', async (req, res, next) => { // 获取所有文章
                 category,
                 author: req.session.user._id,
             });
+            articleData = data
+            categoryId = data.category
+            console.log(articleData)
             res.json({
                 code: 200,
                 msg: '笔记发布成功',
@@ -86,7 +91,7 @@ router.get('/article', (req, res) => {
             })
         })
 });
-router.get('/article/:id', (req, res) => { // 获取单挑文章
+router.get('/article/:id', (req, res) => { // 获取单条文章
     const {id} = req.params;
     articleModel.findById(id)
         .populate({
@@ -102,7 +107,45 @@ router.get('/article/:id', (req, res) => { // 获取单挑文章
             data
         })
     })
-
+});
+router.get('/categoryArticle/:id', (req, res) => { // 根据分类获取文章
+    const {id} = req.params;
+    console.log(this.categoryId)
+    articleModel.findById(id)
+    .populate({
+        path: 'author',
+        select: '-password'
+    })
+    .populate({
+        path: 'category'
+    })
+    .then(data => {
+    res.json({
+        code: 200,
+        data
+    })
+})
+    // if (articleData.category) {
+    //     articleModel.findById(id)
+    //     .populate({
+    //         path: 'author',
+    //         select: '-password'
+    //     })
+    //     .populate({
+    //         path: 'category'
+    //     })
+    //     .then(data => {
+    //     res.json({
+    //         code: 200,
+    //         data
+    //     })
+    // })
+    // } else {
+    //     res.json({
+    //         code: 200,
+    //         data: []
+    //     })
+    // }
 });
 router.delete('/article/:id', (req, res) => { // 删除文章
     const {id} = req.params;
